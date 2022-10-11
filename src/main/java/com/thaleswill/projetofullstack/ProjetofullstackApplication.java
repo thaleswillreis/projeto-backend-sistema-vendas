@@ -8,8 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.thaleswill.projetofullstack.domain.Categoria;
+import com.thaleswill.projetofullstack.domain.Cidade;
+import com.thaleswill.projetofullstack.domain.Estado;
 import com.thaleswill.projetofullstack.domain.Produto;
 import com.thaleswill.projetofullstack.repositories.CategoriaRepository;
+import com.thaleswill.projetofullstack.repositories.CidadeRepository;
+import com.thaleswill.projetofullstack.repositories.EstadoRepository;
 import com.thaleswill.projetofullstack.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -19,6 +23,10 @@ public class ProjetofullstackApplication implements CommandLineRunner {
 	private CategoriaRepository categoriaRepository;
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	@Autowired
+	private EstadoRepository estadoRepository;
+	@Autowired
+	private CidadeRepository cidadeRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetofullstackApplication.class, args);
@@ -51,5 +59,22 @@ public class ProjetofullstackApplication implements CommandLineRunner {
 		
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
+		
+		Estado uf1 = new Estado(null, "Maranhão");
+		Estado uf2 = new Estado(null, "São Paulo");
+		Estado uf3 = new Estado(null, "Paraná");
+		
+		Cidade mun1 = new Cidade(null, "Imperatriz", uf1);
+		Cidade mun2 = new Cidade(null, "Indaiatuba", uf2);
+		Cidade mun3 = new Cidade(null, "Maringá", uf3);
+		Cidade mun4 = new Cidade(null, "Jundiaí", uf2);
+		
+		uf1.getCidades().addAll(Arrays.asList(mun1));
+		uf2.getCidades().addAll(Arrays.asList(mun2, mun4));
+		uf3.getCidades().addAll(Arrays.asList(mun3));
+		
+		estadoRepository.saveAll(Arrays.asList(uf1, uf2, uf3));
+		cidadeRepository.saveAll(Arrays.asList(mun1, mun2, mun3, mun4));
+		
 	}
 }
