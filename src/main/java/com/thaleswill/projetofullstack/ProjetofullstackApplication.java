@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.thaleswill.projetofullstack.domain.Categoria;
 import com.thaleswill.projetofullstack.domain.Cidade;
+import com.thaleswill.projetofullstack.domain.Cliente;
+import com.thaleswill.projetofullstack.domain.Endereco;
 import com.thaleswill.projetofullstack.domain.Estado;
 import com.thaleswill.projetofullstack.domain.Produto;
+import com.thaleswill.projetofullstack.domain.enums.TipoCliente;
 import com.thaleswill.projetofullstack.repositories.CategoriaRepository;
 import com.thaleswill.projetofullstack.repositories.CidadeRepository;
+import com.thaleswill.projetofullstack.repositories.ClienteRepository;
+import com.thaleswill.projetofullstack.repositories.EnderecoRepository;
 import com.thaleswill.projetofullstack.repositories.EstadoRepository;
 import com.thaleswill.projetofullstack.repositories.ProdutoRepository;
 
@@ -27,6 +32,10 @@ public class ProjetofullstackApplication implements CommandLineRunner {
 	private EstadoRepository estadoRepository;
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetofullstackApplication.class, args);
@@ -35,6 +44,7 @@ public class ProjetofullstackApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
+		//dados mock categoria e produto
 		Categoria cat1 =new Categoria(null, "Informática");
 		Categoria cat2 =new Categoria(null, "Escritório");
 		Categoria cat3 =new Categoria(null, "Games");
@@ -59,7 +69,8 @@ public class ProjetofullstackApplication implements CommandLineRunner {
 		
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
-		
+
+		//dados mock cliente e endereco
 		Estado uf1 = new Estado(null, "Maranhão");
 		Estado uf2 = new Estado(null, "São Paulo");
 		Estado uf3 = new Estado(null, "Paraná");
@@ -76,5 +87,16 @@ public class ProjetofullstackApplication implements CommandLineRunner {
 		estadoRepository.saveAll(Arrays.asList(uf1, uf2, uf3));
 		cidadeRepository.saveAll(Arrays.asList(mun1, mun2, mun3, mun4));
 		
+		Cliente cliente1 = new Cliente(null, "Joaozinho", "joao@gmail.com", "22233344455", TipoCliente.PESSOAFISICA);
+		cliente1.getTelefones().addAll(Arrays.asList("99991001122", "99984001122"));
+		
+		Endereco end1 = new Endereco(null, "Rua A", "100", "Apto 102", "Vila do rato", "65900000", cliente1, mun1);
+		Endereco end2 = new Endereco(null, "Rua B", "200", "Apto 204", "Centro", "65900000", cliente1, mun2);
+
+		cliente1.getEnderecos().addAll(Arrays.asList(end1, end2));
+		
+		clienteRepository.saveAll(Arrays.asList(cliente1));
+		enderecoRepository.saveAll(Arrays.asList(end1, end2));
+	
 	}
 }
