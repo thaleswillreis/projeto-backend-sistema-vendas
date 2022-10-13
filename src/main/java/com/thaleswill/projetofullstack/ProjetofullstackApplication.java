@@ -13,6 +13,7 @@ import com.thaleswill.projetofullstack.domain.Cidade;
 import com.thaleswill.projetofullstack.domain.Cliente;
 import com.thaleswill.projetofullstack.domain.Endereco;
 import com.thaleswill.projetofullstack.domain.Estado;
+import com.thaleswill.projetofullstack.domain.ItemPedido;
 import com.thaleswill.projetofullstack.domain.Pagamento;
 import com.thaleswill.projetofullstack.domain.PagamentoComBoleto;
 import com.thaleswill.projetofullstack.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.thaleswill.projetofullstack.repositories.CidadeRepository;
 import com.thaleswill.projetofullstack.repositories.ClienteRepository;
 import com.thaleswill.projetofullstack.repositories.EnderecoRepository;
 import com.thaleswill.projetofullstack.repositories.EstadoRepository;
+import com.thaleswill.projetofullstack.repositories.ItemPedidoRepository;
 import com.thaleswill.projetofullstack.repositories.PagamentoRepository;
 import com.thaleswill.projetofullstack.repositories.PedidoRepository;
 import com.thaleswill.projetofullstack.repositories.ProdutoRepository;
@@ -48,6 +50,8 @@ public class ProjetofullstackApplication implements CommandLineRunner {
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetofullstackApplication.class, args);
@@ -126,6 +130,20 @@ public class ProjetofullstackApplication implements CommandLineRunner {
 				
 				pedidoRepository.saveAll(Arrays.asList(ped1, ped2)); 
 				pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
-	
+				
+		//dados mock items de pedido
+				
+		ItemPedido itemped1 = new ItemPedido(ped1, prod1, 0.00, 1, 3000.00);
+		ItemPedido itemped2 = new ItemPedido(ped1, prod2, 0.00, 2, 60.00);
+		ItemPedido itemped3 = new ItemPedido(ped2, prod3, 40.00, 1, 800.00);
+		
+		ped1.getItems().addAll(Arrays.asList(itemped1, itemped2));
+		ped2.getItems().addAll(Arrays.asList(itemped3));
+		
+		prod1.getItems().addAll(Arrays.asList(itemped1));
+		prod2.getItems().addAll(Arrays.asList(itemped2));
+		prod3.getItems().addAll(Arrays.asList(itemped3));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(itemped1, itemped2, itemped3));
 	}
 }
