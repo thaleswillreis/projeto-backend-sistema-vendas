@@ -3,10 +3,12 @@ package com.thaleswill.projetofullstack.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.thaleswill.projetofullstack.domain.Categoria;
 import com.thaleswill.projetofullstack.repositories.CategoriaRepository;
+import com.thaleswill.projetofullstack.services.exceptions.DataIntegrityException;
 import com.thaleswill.projetofullstack.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -29,5 +31,14 @@ public class CategoriaService {
 	public Categoria update(Categoria obj) {
 		find(obj.getId());
 		return repo.save(obj);
+	}
+	
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Essa categoria não está vazia! Operação não realizada!");
+		}
 	}
 }
