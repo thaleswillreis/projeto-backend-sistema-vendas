@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.thaleswill.projetofullstack.domain.Categoria;
+import com.thaleswill.projetofullstack.dto.CategoriaDTO;
 import com.thaleswill.projetofullstack.repositories.CategoriaRepository;
 import com.thaleswill.projetofullstack.services.exceptions.DataIntegrityException;
 import com.thaleswill.projetofullstack.services.exceptions.ObjectNotFoundException;
@@ -54,5 +55,10 @@ public class CategoriaService {
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String direction, String orderBy){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
+	}
+	
+	//método auxiliar para converter objetos do tipo CategoriaDTO
+	public Categoria fromDTO(CategoriaDTO obDto) {
+		return new Categoria(obDto.getId(), obDto.getNome());
 	}
 }
