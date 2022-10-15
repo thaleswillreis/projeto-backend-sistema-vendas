@@ -65,6 +65,10 @@ public class ProjetofullstackApplication implements CommandLineRunner {
 		Categoria catg2 = new Categoria(null, "Escritório");
 		Categoria catg3 = new Categoria(null, "Games");
 		Categoria catg4 = new Categoria(null, "Eletrônicos");
+		Categoria catg5 = new Categoria(null, "Ferramentas");
+		Categoria catg6 = new Categoria(null, "Perfumaria");
+		Categoria catg7 = new Categoria(null, "Eletrodomésticos");
+		Categoria catg8 = new Categoria(null, "Petshop");
 
 		Produto prod1 = new Produto(null, "Notebook Lenovo", 3000.00);
 		Produto prod2 = new Produto(null, "Battlefield One", 60.00);
@@ -83,7 +87,7 @@ public class ProjetofullstackApplication implements CommandLineRunner {
 		prod4.getCategorias().addAll(Arrays.asList(catg1, catg4));
 		prod5.getCategorias().addAll(Arrays.asList(catg1, catg3));
 
-		categoriaRepository.saveAll(Arrays.asList(catg1, catg2, catg3, catg4));
+		categoriaRepository.saveAll(Arrays.asList(catg1, catg2, catg3, catg4, catg5, catg6, catg7, catg8));
 		produtoRepository.saveAll(Arrays.asList(prod1, prod2, prod3, prod4, prod5));
 
 		// dados mock cliente e endereco
