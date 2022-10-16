@@ -58,7 +58,7 @@ public class CategoriaService {
 	}
 	
 	//método auxiliar para converter objetos do tipo CategoriaDTO
-	public Categoria fromDTO(CategoriaDTO obDto) {
-		return new Categoria(obDto.getId(), obDto.getNome());
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
 	}
 }
