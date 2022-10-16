@@ -9,10 +9,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.thaleswill.projetofullstack.domain.Cidade;
 import com.thaleswill.projetofullstack.domain.Cliente;
+import com.thaleswill.projetofullstack.domain.Endereco;
+import com.thaleswill.projetofullstack.domain.enums.TipoCliente;
 import com.thaleswill.projetofullstack.dto.ClienteDTO;
+import com.thaleswill.projetofullstack.dto.ClienteNovoDTO;
 import com.thaleswill.projetofullstack.repositories.ClienteRepository;
+import com.thaleswill.projetofullstack.repositories.EnderecoRepository;
 import com.thaleswill.projetofullstack.services.exceptions.DataIntegrityException;
 import com.thaleswill.projetofullstack.services.exceptions.ObjectNotFoundException;
 
@@ -21,6 +27,9 @@ public class ClienteService {
 
 	@Autowired
 	private ClienteRepository repo;
+	
+	@Autowired
+	private EnderecoRepository enderecpRepository;
 
 	public Cliente find(Integer id) {
 		Optional<Cliente> obj = repo.findById(id);
@@ -28,9 +37,12 @@ public class ClienteService {
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
 
+	@Transactional
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
-		return repo.save(obj);
+		obj = repo.save(obj);
+		enderecpRepository.saveAll(obj.getEnderecos());
+		return obj;
 	}
 
 	public Cliente update(Cliente obj) {
@@ -62,8 +74,27 @@ public class ClienteService {
 	public Cliente fromDTO(ClienteDTO objDto) {
 		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null);
 	}
-	
-	// método auxiliar para atualizar os dados de 'newObj' contendo os dados buscados no BD
+
+	// sobrecarga do método auxiliar para converter objetos do tipo ClienteNovoDTO
+	public Cliente fromDTO(ClienteNovoDTO objDto) {		
+		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), 
+				objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipo()));
+		Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
+		Endereco end = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), 
+				objDto.getComplemento(), objDto.getBairro(), objDto.getCep(), cli, cid);
+		cli.getEnderecos().add(end);
+		cli.getTelefones().add(objDto.getTelefone1());
+		if (objDto.getTelefone2() != null) {
+			cli.getTelefones().add(objDto.getTelefone2());
+		}
+		if (objDto.getTelefone3() != null) {
+			cli.getTelefones().add(objDto.getTelefone3());
+		}
+		return cli;
+	}
+
+	// método auxiliar para atualizar os dados de 'newObj' contendo os dados
+	// buscados no BD
 	private void updateData(Cliente newObj, Cliente obj) {
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
