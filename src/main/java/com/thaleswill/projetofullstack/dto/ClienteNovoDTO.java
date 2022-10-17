@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.Length;
 
 import com.thaleswill.projetofullstack.services.validation.ClienteInsert;
 
-//Anotação personalisada, Classes 'InsertClient', InsertClientValidation e RulesDocBR
+//Anotação personalisada, Classes 'ClientInsert', ClientInsertValidation e BR
 @ClienteInsert   
 public class ClienteNovoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
