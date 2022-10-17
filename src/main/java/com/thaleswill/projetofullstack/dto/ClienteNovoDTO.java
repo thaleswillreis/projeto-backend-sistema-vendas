@@ -2,20 +2,35 @@ package com.thaleswill.projetofullstack.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.thaleswill.projetofullstack.services.validation.ClienteInsert;
+
+//Anotação personalisada, Classes 'InsertClient', InsertClientValidation e RulesDocBR
+@ClienteInsert   
 public class ClienteNovoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@NotEmpty(message = "Preenchimento obrigatório")
+	@Length(min = 2, max = 100, message = "O nome de conter no mínimo 2 e no máximo 100 caracteres.")
 	private String nome;
+	@NotEmpty(message = "Preenchimento obrigatório")
+	@Email(message = "Insira um endereço de e-mail válido")
 	private String email;
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String cpfOuCnpj;
 	private Integer tipo;
-	
+	@NotEmpty(message = "Preenchimento do logradouro é obrigatório")
 	private String logradouro;
 	private String numero;
 	private String complemento;
 	private String bairro;
+	@NotEmpty(message = "Preenchimento CEP é obrigatório")
 	private String cep;
-	
+	@NotEmpty(message = "Insira pelo menos um número de telefone para contato")
 	private String telefone1;
 	private String telefone2;
 	private String telefone3;
