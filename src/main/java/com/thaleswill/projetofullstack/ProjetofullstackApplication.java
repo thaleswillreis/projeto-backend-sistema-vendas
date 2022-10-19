@@ -75,20 +75,44 @@ public class ProjetofullstackApplication implements CommandLineRunner {
 		Produto prod3 = new Produto(null, "Impressora", 800.00);
 		Produto prod4 = new Produto(null, "Apple IPad Pro", 2800.00);
 		Produto prod5 = new Produto(null, "Mouse Gamer", 120.00);
+		Produto prod6 = new Produto(null, "Micro retífica Dremel", 450.00);
+		Produto prod7 = new Produto(null, "Ferrari Black 125ml", 150.00);
+		Produto prod8 = new Produto(null, "Fogão 4 bocas", 800.00);
+		Produto prod9 = new Produto(null, "Coleira Antiparasitária", 80.67);
+		Produto prod10 = new Produto(null, "Papel Report Mult A4", 26.90);
+		Produto prod11 = new Produto(null, "gift card xbox game pass 12 meses", 229.00);
+		Produto prod12 = new Produto(null, "Microondas Grill LG 30L", 669.00);
+		Produto prod13 = new Produto(null, "Paco Rabanne Invictus Platinum 100ml", 533.90);
+		Produto prod14 = new Produto(null, "Headset ASTRO Gaming A40 TR + MixAmp Pro TR Gen 4", 1580.00);
+		Produto prod15 = new Produto(null, "Ração Golden Seleção Natural Cães Adultos 3kg", 59.90);
 
-		catg1.getProdutos().addAll(Arrays.asList(prod1, prod3, prod4, prod5));
-		catg2.getProdutos().addAll(Arrays.asList(prod3));
-		catg3.getProdutos().addAll(Arrays.asList(prod2, prod5));
-		catg4.getProdutos().addAll(Arrays.asList(prod4));
-
+		catg1.getProdutos().addAll(Arrays.asList(prod1, prod3, prod4, prod5, prod14));
+		catg2.getProdutos().addAll(Arrays.asList(prod3, prod10));
+		catg3.getProdutos().addAll(Arrays.asList(prod2, prod5, prod11, prod14));
+		catg4.getProdutos().addAll(Arrays.asList(prod4, prod14));
+		catg5.getProdutos().addAll(Arrays.asList(prod6));
+		catg6.getProdutos().addAll(Arrays.asList(prod7, prod13));
+		catg7.getProdutos().addAll(Arrays.asList(prod8, prod12));
+		catg8.getProdutos().addAll(Arrays.asList(prod9, prod15));
 		prod1.getCategorias().addAll(Arrays.asList(catg1));
 		prod2.getCategorias().addAll(Arrays.asList(catg3));
 		prod3.getCategorias().addAll(Arrays.asList(catg1, catg2));
 		prod4.getCategorias().addAll(Arrays.asList(catg1, catg4));
 		prod5.getCategorias().addAll(Arrays.asList(catg1, catg3));
+		prod6.getCategorias().addAll(Arrays.asList(catg5));
+		prod7.getCategorias().addAll(Arrays.asList(catg6));
+		prod8.getCategorias().addAll(Arrays.asList(catg7));
+		prod9.getCategorias().addAll(Arrays.asList(catg8));
+		prod10.getCategorias().addAll(Arrays.asList(catg2));
+		prod11.getCategorias().addAll(Arrays.asList(catg3));
+		prod12.getCategorias().addAll(Arrays.asList(catg7));
+		prod13.getCategorias().addAll(Arrays.asList(catg6));
+		prod14.getCategorias().addAll(Arrays.asList(catg1, catg3, catg4));
+		prod15.getCategorias().addAll(Arrays.asList(catg8));
 
 		categoriaRepository.saveAll(Arrays.asList(catg1, catg2, catg3, catg4, catg5, catg6, catg7, catg8));
-		produtoRepository.saveAll(Arrays.asList(prod1, prod2, prod3, prod4, prod5));
+		produtoRepository.saveAll(Arrays.asList(prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10,
+				prod11, prod12, prod13, prod14, prod15));
 
 		// dados mock cliente e endereco
 		Estado uf1 = new Estado(null, "Maranhão");
