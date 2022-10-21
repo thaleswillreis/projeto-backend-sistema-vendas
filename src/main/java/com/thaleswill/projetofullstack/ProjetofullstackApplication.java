@@ -45,6 +45,7 @@ public class ProjetofullstackApplication implements CommandLineRunner {
 	@Autowired
 	private ClienteRepository clienteRepository;
 	@Autowired
+	
 	private EnderecoRepository enderecoRepository;
 	@Autowired
 	private PedidoRepository pedidoRepository;

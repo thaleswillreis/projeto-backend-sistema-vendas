@@ -30,7 +30,7 @@ public class ProdutoResource {
 	}
 	
 	//Busca paginada por letras, nomes e categorias
-		@RequestMapping(method = RequestMethod.GET)
+		@RequestMapping(value="/page", method = RequestMethod.GET)
 		public ResponseEntity<Page<ProdutoDTO>> findPage(
 				@RequestParam(value = "nome", defaultValue = "") String nome, 
 				@RequestParam(value = "categorias", defaultValue = "") String categorias, 
