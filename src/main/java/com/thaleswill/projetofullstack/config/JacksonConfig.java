@@ -12,7 +12,7 @@ import com.thaleswill.projetofullstack.domain.PagamentoComCartao;
 public class JacksonConfig {
 
     @Bean
-    Jackson2ObjectMapperBuilder objectMapperBuilder() {
+    public Jackson2ObjectMapperBuilder objectMapperBuilder() {
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder() {
             public void configure(ObjectMapper objectMapper) {
                 objectMapper.registerSubtypes(PagamentoComCartao.class);
