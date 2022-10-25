@@ -1,7 +1,8 @@
 package com.thaleswill.projetofullstack.domain;
 
 import java.io.Serializable;
-import java.util.Objects;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -15,11 +16,11 @@ public class ItemPedido implements Serializable {
 	@JsonIgnore
 	@EmbeddedId
 	private ItemPedidoPK id = new ItemPedidoPK();
-	
+
 	private Double desconto;
 	private Integer quantidade;
 	private Double preco;
-	
+
 	public ItemPedido() {
 	}
 
@@ -31,8 +32,8 @@ public class ItemPedido implements Serializable {
 		this.quantidade = quantidade;
 		this.preco = preco;
 	}
-	
-	public double getSubTotal( ) {
+
+	public double getSubTotal() {
 		return (preco - desconto) * quantidade;
 	}
 	
@@ -87,9 +88,12 @@ public class ItemPedido implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -99,6 +103,26 @@ public class ItemPedido implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ItemPedido other = (ItemPedido) obj;
-		return Objects.equals(id, other.id);
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		StringBuilder builder = new StringBuilder();
+		builder.append(getProduto().getNome());
+		builder.append(", Qte: ");
+		builder.append(getQuantidade());
+		builder.append(", Preço unitário: ");
+		builder.append(nf.format(getPreco()));
+		builder.append(", Subtotal: ");
+		builder.append(nf.format(getSubTotal()));
+		builder.append("\n");
+		return builder.toString();
 	}
 }
