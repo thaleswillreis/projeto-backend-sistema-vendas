@@ -8,5 +8,4 @@ public interface EmailService {
 	
 	void emailDeConfirmacaoDePedido(Pedido obj);
 	void sendEmail(SimpleMailMessage msg);
-
 }

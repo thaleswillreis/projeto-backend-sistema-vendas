@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.thaleswill.projetofullstack.domain.Categoria;
@@ -51,6 +52,9 @@ public class DBService {
 	private PagamentoRepository pagamentoRepository;
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+	
+	@Value("${default.recipient}")
+	private String emailDestino;
 
 	public void instantiateTestDatabase() throws ParseException {
 
@@ -125,7 +129,7 @@ public class DBService {
 		estadoRepository.saveAll(Arrays.asList(uf1, uf2, uf3));
 		cidadeRepository.saveAll(Arrays.asList(mun1, mun2, mun3, mun4));
 
-		Cliente cliente1 = new Cliente(null, "Maninho", "twsr@gmail.com", "87061325372", TipoCliente.PESSOAFISICA);
+		Cliente cliente1 = new Cliente(null, "Maninho", emailDestino, "87061325372", TipoCliente.PESSOAFISICA);
 		cliente1.getTelefones().addAll(Arrays.asList("99991001122", "99984001122"));
 
 		Endereco end1 = new Endereco(null, "Rua A", "100", "Apto 102", "Vila do rato", "65900000", cliente1, mun1);
