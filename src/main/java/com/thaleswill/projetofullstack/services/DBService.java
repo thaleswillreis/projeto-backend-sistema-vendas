@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.thaleswill.projetofullstack.domain.Categoria;
@@ -34,6 +35,8 @@ import com.thaleswill.projetofullstack.repositories.ProdutoRepository;
 @Service
 public class DBService {
 
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 	@Autowired
@@ -129,7 +132,7 @@ public class DBService {
 		estadoRepository.saveAll(Arrays.asList(uf1, uf2, uf3));
 		cidadeRepository.saveAll(Arrays.asList(mun1, mun2, mun3, mun4));
 
-		Cliente cliente1 = new Cliente(null, "Maninho", emailDestino, "87061325372", TipoCliente.PESSOAFISICA);
+		Cliente cliente1 = new Cliente(null, "Maninho", emailDestino, "87061325372", TipoCliente.PESSOAFISICA, passwordEncoder.encode("123456"));
 		cliente1.getTelefones().addAll(Arrays.asList("99991001122", "99984001122"));
 
 		Endereco end1 = new Endereco(null, "Rua A", "100", "Apto 102", "Vila do rato", "65900000", cliente1, mun1);
