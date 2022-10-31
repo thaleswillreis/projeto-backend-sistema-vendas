@@ -21,6 +21,7 @@ import com.thaleswill.projetofullstack.domain.PagamentoComCartao;
 import com.thaleswill.projetofullstack.domain.Pedido;
 import com.thaleswill.projetofullstack.domain.Produto;
 import com.thaleswill.projetofullstack.domain.enums.EstadoPagamento;
+import com.thaleswill.projetofullstack.domain.enums.Perfil;
 import com.thaleswill.projetofullstack.domain.enums.TipoCliente;
 import com.thaleswill.projetofullstack.repositories.CategoriaRepository;
 import com.thaleswill.projetofullstack.repositories.CidadeRepository;
@@ -132,16 +133,24 @@ public class DBService {
 		estadoRepository.saveAll(Arrays.asList(uf1, uf2, uf3));
 		cidadeRepository.saveAll(Arrays.asList(mun1, mun2, mun3, mun4));
 
-		Cliente cliente1 = new Cliente(null, "Maninho", emailDestino, "87061325372", TipoCliente.PESSOAFISICA, passwordEncoder.encode("123456"));
-		cliente1.getTelefones().addAll(Arrays.asList("99991001122", "99984001122"));
+		Cliente cliente1 = new Cliente(null, "Maninho", emailDestino, "11618116487", TipoCliente.PESSOAFISICA, passwordEncoder.encode("123456"));
+		cliente1.getTelefones().addAll(Arrays.asList("99991001122", "99984003344"));
+		cliente1.addPerfil(Perfil.CLIENTE);
+		
+		Cliente cliente2 = new Cliente(null, "Minininha", "thaleswill@gmx.com", "40505846381", TipoCliente.PESSOAFISICA, passwordEncoder.encode("654321"));
+		cliente2.getTelefones().addAll(Arrays.asList("99991005566", "99984007788"));
+		cliente2.addPerfil(Perfil.ADMIN);
 
 		Endereco end1 = new Endereco(null, "Rua A", "100", "Apto 102", "Vila do rato", "65900000", cliente1, mun1);
-		Endereco end2 = new Endereco(null, "Rua B", "200", "Apto 204", "Centro", "65900000", cliente1, mun2);
-
+		Endereco end2 = new Endereco(null, "Rua B", "200", "Apto 204", "Centro", "13330670", cliente1, mun2);
+		Endereco end3 = new Endereco(null, "Av. industrial", "1122", "Apto 105", "Parque Industrial", "87069001", cliente2, mun3);
+		Endereco end4 = new Endereco(null, "Rua Barão de Jundiaí", "599", null, "Centro", "13201010", cliente2, mun4);
+		
 		cliente1.getEnderecos().addAll(Arrays.asList(end1, end2));
+		cliente2.getEnderecos().addAll(Arrays.asList(end3, end4));
 
-		clienteRepository.saveAll(Arrays.asList(cliente1));
-		enderecoRepository.saveAll(Arrays.asList(end1, end2));
+		clienteRepository.saveAll(Arrays.asList(cliente1, cliente2));
+		enderecoRepository.saveAll(Arrays.asList(end1, end2, end3, end4));
 
 		// dados mock pedido e pagamento
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
