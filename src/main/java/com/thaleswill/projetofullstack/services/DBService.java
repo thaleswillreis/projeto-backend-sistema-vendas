@@ -59,6 +59,9 @@ public class DBService {
 	
 	@Value("${default.recipient}")
 	private String emailDestino;
+	
+	@Value("${email.test.user2}")
+	private String emailUser2;
 
 	public void instantiateTestDatabase() throws ParseException {
 
@@ -137,7 +140,7 @@ public class DBService {
 		cliente1.getTelefones().addAll(Arrays.asList("99991001122", "99984003344"));
 		cliente1.addPerfil(Perfil.CLIENTE);
 		
-		Cliente cliente2 = new Cliente(null, "Minininha", "thaleswill@gmx.com", "40505846381", TipoCliente.PESSOAFISICA, passwordEncoder.encode("654321"));
+		Cliente cliente2 = new Cliente(null, "Minininha", emailUser2, "40505846381", TipoCliente.PESSOAFISICA, passwordEncoder.encode("654321"));
 		cliente2.getTelefones().addAll(Arrays.asList("99991005566", "99984007788"));
 		cliente2.addPerfil(Perfil.ADMIN);
 

@@ -15,19 +15,20 @@ import com.thaleswill.projetofullstack.services.SmtpEmailService;
 @Configuration
 @Profile("dev")
 public class DevConfig {
-	
+
 	@Autowired
 	private DBService dbService;
 	
 	@Value("${spring.jpa.hibernate.ddl-auto}")
-	private String dbStrategy;
+	private String strategy;
 	
 	@Bean
 	public boolean instantiateDatabase() throws ParseException {
 		
-		if (!"create".equals(dbStrategy)) {
+		if (!"create".equals(strategy)) {
 			return false;
 		}
+		
 		dbService.instantiateTestDatabase();
 		return true;
 	}
