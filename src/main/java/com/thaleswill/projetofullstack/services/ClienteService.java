@@ -15,11 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.thaleswill.projetofullstack.domain.Cidade;
 import com.thaleswill.projetofullstack.domain.Cliente;
 import com.thaleswill.projetofullstack.domain.Endereco;
+import com.thaleswill.projetofullstack.domain.enums.Perfil;
 import com.thaleswill.projetofullstack.domain.enums.TipoCliente;
 import com.thaleswill.projetofullstack.dto.ClienteDTO;
 import com.thaleswill.projetofullstack.dto.ClienteNovoDTO;
 import com.thaleswill.projetofullstack.repositories.ClienteRepository;
 import com.thaleswill.projetofullstack.repositories.EnderecoRepository;
+import com.thaleswill.projetofullstack.security.UserSpringSecurity;
+import com.thaleswill.projetofullstack.services.exceptions.AuthorizationException;
 import com.thaleswill.projetofullstack.services.exceptions.DataIntegrityException;
 import com.thaleswill.projetofullstack.services.exceptions.ObjectNotFoundException;
 
@@ -36,6 +39,12 @@ public class ClienteService {
 	private EnderecoRepository enderecoRepository;
 
 	public Cliente find(Integer id) {
+		//verifica o Id do usuário ou se é um admin antes de fazer uma requisição
+		UserSpringSecurity user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
