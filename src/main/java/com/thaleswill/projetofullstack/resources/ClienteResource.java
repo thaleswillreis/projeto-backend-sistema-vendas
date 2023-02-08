@@ -23,6 +23,8 @@ import com.thaleswill.projetofullstack.dto.ClienteDTO;
 import com.thaleswill.projetofullstack.dto.ClienteNovoDTO;
 import com.thaleswill.projetofullstack.services.ClienteService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value = "/clientes")
 public class ClienteResource {
@@ -30,23 +32,23 @@ public class ClienteResource {
 	@Autowired
 	private ClienteService service;
 
+	@ApiOperation(value="Busca um Cliente pelo id")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Cliente> find(@PathVariable Integer id) {
 		Cliente obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
-	//Inserir
-		@RequestMapping(method = RequestMethod.POST)
-		public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNovoDTO objDto) {
-			Cliente obj = service.fromDTO(objDto);
-			obj = service.insert(obj);
-			URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-					.path("/{id}").buildAndExpand(obj.getId()).toUri();
-			return ResponseEntity.created(uri).build();
-		}
-	
-	// Atualizar
+	@ApiOperation(value="Insere um novo Cliente")
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNovoDTO objDto) {
+		Cliente obj = service.fromDTO(objDto);
+		obj = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+
+	@ApiOperation(value="Atualiza um Cliente existente pelo id")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto, @PathVariable Integer id) {
 		Cliente obj = service.fromDTO(objDto);
@@ -55,7 +57,7 @@ public class ClienteResource {
 		return ResponseEntity.noContent().build();
 	}
 
-	// Apagar
+	@ApiOperation(value="Apaga um Cliente existente pelo id")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
@@ -63,7 +65,7 @@ public class ClienteResource {
 		return ResponseEntity.noContent().build();
 	}
 
-	// Buscar todos
+	@ApiOperation(value="Busca todos os Clientes existentes")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<ClienteDTO>> findAll() {
@@ -72,7 +74,7 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 
-	// Busca paginada
+	@ApiOperation(value="Busca paginada de todos os Clientes existentes")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<ClienteDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,

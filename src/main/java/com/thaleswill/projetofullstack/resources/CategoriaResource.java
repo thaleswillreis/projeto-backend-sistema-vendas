@@ -22,6 +22,10 @@ import com.thaleswill.projetofullstack.domain.Categoria;
 import com.thaleswill.projetofullstack.dto.CategoriaDTO;
 import com.thaleswill.projetofullstack.services.CategoriaService;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping(value="/categorias")
 public class CategoriaResource {
@@ -29,14 +33,14 @@ public class CategoriaResource {
 	@Autowired
 	private CategoriaService service;
 	
-	//Buscar
+	@ApiOperation(value="Busca uma Categoria de produto pelo id")
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		Categoria obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	//Inserir
+	@ApiOperation(value="Insere uma nova Categoria de produto")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto) {
@@ -47,7 +51,7 @@ public class CategoriaResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	//Atualizar
+	@ApiOperation(value="Atualiza uma Categoria de produto existente pelo id")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id) {
@@ -57,7 +61,10 @@ public class CategoriaResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	//Apagar
+	@ApiOperation(value="Apaga uma Categoria de produto existente pelo id")
+	@ApiResponses(value = {
+			@ApiResponse(code = 400, message = "Não é possível excluir uma categoria que possui produtos"),
+			@ApiResponse(code = 404, message = "Código inexistente") })
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
@@ -65,7 +72,7 @@ public class CategoriaResource {
 		return ResponseEntity.noContent().build();
 	}
 
-	//Buscar todos
+	@ApiOperation(value="Busca todas as Categorias de produtos")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<CategoriaDTO>> findAll() {
 		List<Categoria> list = service.findAll();
@@ -75,7 +82,7 @@ public class CategoriaResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 	
-	//Busca paginada
+	@ApiOperation(value="Busca paginada de todas as Categorias de produtos")
 	@RequestMapping(value="/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<CategoriaDTO>> findPage(
 			@RequestParam(value = "page", defaultValue = "0") Integer page, 
