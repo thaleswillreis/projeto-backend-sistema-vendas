@@ -16,6 +16,8 @@ import com.thaleswill.projetofullstack.security.UserSpringSecurity;
 import com.thaleswill.projetofullstack.services.AuthService;
 import com.thaleswill.projetofullstack.services.UserService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value = "/auth")
 public class AuthResource {
@@ -26,7 +28,7 @@ public class AuthResource {
 	@Autowired
 	private AuthService service;
 
-	//endpoint para atualização do token
+	@ApiOperation(value="Atualiza um token de um usuário já autenticado")
 	@RequestMapping(value = "/refresh_token", method = RequestMethod.POST)
 	public ResponseEntity<Void> refreshToken(HttpServletResponse response) {
 		UserSpringSecurity user = UserService.authenticated();
@@ -36,7 +38,7 @@ public class AuthResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	//endpoint para requisição de uma nova senha
+	@ApiOperation(value="Faz a requisição de um token de autenticação")
 	@RequestMapping(value = "/forgot", method = RequestMethod.POST)
 	public ResponseEntity<Void> forgot(@Valid @RequestBody EmailDTO objDto) {
 		service.sendNewPassword(objDto.getEmail());
